@@ -47,7 +47,7 @@ const MainTabScreen = () => (
         component={ProfileScreen}
         options={{
           tabBarLabel: 'Profile',
-          tabBarColor: '#694fad',
+          tabBarColor: '#009387',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-person" color={color} size={26} />
           ),
@@ -55,10 +55,10 @@ const MainTabScreen = () => (
       />
       <Tab.Screen
         name="Explore"
-        component={ExploreScreen}
+        component={ExploreStackScreen}
         options={{
           tabBarLabel: 'Explore',
-          tabBarColor: '#d02860',
+          tabBarColor: '#009387',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-aperture" color={color} size={26} />
           ),
@@ -104,5 +104,20 @@ const DetailsStackScreen = ({navigation}) => (
         )
         }} />
 </DetailsStack.Navigator>
+);
+const ExploreStackScreen = ({navigation}) => (
+  <DetailsStack.Navigator screenOptions={{
+          headerStyle: {
+          backgroundColor: '#009387',
+          },
+          headerTintColor: '#fff',
+          headerTitleAlign:'center',
+          headerTitleStyle: {
+          fontWeight: 'bold'
+          }
+      }}>
+          <DetailsStack.Screen name="Bluetooth" component={ExploreScreen}  />
+  </DetailsStack.Navigator>
+
 );
   

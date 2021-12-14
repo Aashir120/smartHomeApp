@@ -18,13 +18,13 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import{ AuthContext } from '../components/context';
+import{ AuthContext } from '../components/AuthProvider';
 
 export function DrawerContent(props) {
 
     const paperTheme = useTheme();
 
-    const { signOut, toggleTheme } = React.useContext(AuthContext);
+    const { logout, toggleTheme } = React.useContext(AuthContext);
 
     return(
         <View style={{flex:1}}>
@@ -93,7 +93,7 @@ export function DrawerContent(props) {
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
-                                name="settings-outline" 
+                                name="account-settings-outline" 
                                 color={color}
                                 size={size}
                                 />
@@ -135,7 +135,7 @@ export function DrawerContent(props) {
                         />
                     )}
                     label="Sign Out"
-                    onPress={() => {signOut()}}
+                    onPress={() => {logout()}}
                 />
             </Drawer.Section>
         </View>

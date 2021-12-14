@@ -24,7 +24,7 @@ export default class ExploreScreen extends Component {
     }
   }
   
-  componentWillMount(){
+  UNSAFE_componentWillMount(){
  
     Promise.all([
       BluetoothSerial.isEnabled(),
@@ -116,7 +116,7 @@ export default class ExploreScreen extends Component {
     return (
       <View style={styles.container}>
       <View style={styles.toolbar}>
-            <Text style={styles.toolbarTitle}>Bluetooth Device List</Text>
+            <Text style={styles.toolbarTitle}>Bluetooth</Text>
             <View style={styles.toolbarButton}>
               <Switch
                 value={this.state.isEnabled}
@@ -127,7 +127,7 @@ export default class ExploreScreen extends Component {
         <Button
           onPress={this.discoverAvailableDevices.bind(this)}
           title="Scan for Devices"
-          color="#841584"
+          color="#006994"
         />
         <FlatList
           style={{flex:1}}
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   toolbarTitle:{
-    textAlign:'center',
+    marginLeft:15,
     fontWeight:'bold',
     fontSize: 20,
     flex:1,

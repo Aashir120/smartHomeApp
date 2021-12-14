@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   },
   textSign: {
       color: 'white',
+      width:80,
       fontWeight: 'bold'
   }
 });

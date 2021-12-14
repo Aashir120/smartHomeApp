@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "243295723709",
+    "project_id": "smart-auth-a8d74",
+    "storage_bucket": "smart-auth-a8d74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243295723709:android:443cf649be7e8fb86817d4",
+        "android_client_info": {
+          "package_name": "com.smartAuth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "243295723709-2chi49u7kqohvi404ngjk49d3vmuavln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg-XDMudyQZ7BT6cxsg2HGLaip6GEviRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "243295723709-2chi49u7kqohvi404ngjk49d3vmuavln.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
