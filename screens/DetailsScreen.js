@@ -16,27 +16,29 @@ export default class DetailsScreen extends React.Component {
     this.state = {
       devices: [
         { deviceName: 'Lamp', icon: 'ios-bulb', status: '65% Brightness', isOn: false },
-        { deviceName: 'TV', icon: 'ios-tv', status: '65% Brightness', isOn: false },
-        { deviceName: 'CCTV Camera', icon: 'ios-camera', status: '65% Brightness', isOn: false },
-        { deviceName: 'Lamp', icon: 'ios-bulb', status: '65% Brightness', isOn: false },
+        { deviceName: 'Light Bulb', icon: 'ios-tv', status: '55% Brightness', isOn: false },
+        { deviceName: 'DC Fan', icon: 'ios-camera', status: '65% Speed', isOn: false },
+        { deviceName: 'Air Conditioner', icon: 'ios-bulb', status: '24*C', isOn: false },
         { deviceName: 'Lamp', icon: 'ios-bulb', status: '65% Brightness', isOn: false },
       ],
-      connected: false
+      connected: false,
+      todos: {},
 
     }
   }
-
-  componentDidMount(){
-    this.state.connected = false
-    const reference = database().ref('/Rooms');
-                          reference.update({
-                              connected:this.state.connected
-                          })
+  componentDidMount() {
+    database().ref('/Temperature').on('value', querySnapShot => {
+      let data = querySnapShot.val() ? querySnapShot.val() : {};
+      let todoItems = {...data};
+      this.setState({
+        todos: todoItems,
+      });
+    });
   }
-
   render() {
     const { navigation } = this.props;
-    console.log("connected",this.state.connected);
+    // console.log("navigation", this.props.route.params.place);
+    // console.log("humdity",this.state.todos.Humidity);
     return (
       <LinearGradient
         colors={['#006994', '#a5cdd9']}
@@ -54,7 +56,9 @@ export default class DetailsScreen extends React.Component {
               </TouchableOpacity>
               <View style={{ flexDirection: 'row' }} >
                 <View style={{ flex: 1, justifyContent: 'center' }} >
-                  <Text style={styles.room}>Living Room</Text>
+                {this.props.route.params ? 
+                  <Text style={styles.room}>{this.props.route.params.place}</Text>:
+                  <Text style={styles.room}>Living Room</Text>}
                   <Text style={styles.welcome}>Welcome to Home</Text>
                 </View>
                 <View style={{ justifyContent: 'center', paddingTop: 10, alignItems: 'center' }} >
@@ -70,7 +74,10 @@ export default class DetailsScreen extends React.Component {
                       <Icon name='ios-thermometer' size={40} color="#ffffff" />
                     </View>
                     <View style={{ justifyContent: 'center', marginLeft: 10 }} >
-                      <Text style={{ color: "#ffff", fontWeight: '700', fontSize: 18 }} >24 °C</Text>
+                      <Text style={{ color: "#ffff", fontWeight: '700', fontSize: 18 }} >
+
+                        {this.state.todos? this.state.todos.Temperature+"C": "24*C"}
+                      </Text>
                       <Text style={{ color: "#ffff" }}>TEMP</Text>
                     </View>
                   </View>
@@ -81,7 +88,9 @@ export default class DetailsScreen extends React.Component {
                       <Icon name='ios-water' size={40} color="#ffffff" />
                     </View>
                     <View style={{ justifyContent: 'center', marginLeft: 10 }} >
-                      <Text style={{ color: "#ffff", fontWeight: '700', fontSize: 18 }} >50%</Text>
+                      <Text style={{ color: "#ffff", fontWeight: '700', fontSize: 18 }} >
+                      {this.state.todos? this.state.todos.Humidity: "50%"}
+                      </Text>
                       <Text style={{ color: "#ffff" }}>HUMIDITY</Text>
                     </View>
                   </View>
@@ -136,27 +145,28 @@ export default class DetailsScreen extends React.Component {
                       btn[index].isOn = val;
                       this.setState({ devices: btn });
                       let data = "";
+                      
 
-                      if (val != true) {
-                        data = "T"
+                      if (val != true && btn[index].deviceName =="Lamp") {
+                        data = "B"
                       }
-                      else {
-                        data = "F"
+                      if (val == true && btn[index].deviceName =="Lamp") {
+                        data = "A"
+                      }
+                      if (val != true && btn[index].deviceName =="Light Bulb") {
+                        data = "D"
+                      }
+                      if (val == true && btn[index].deviceName =="Light Bulb") {
+                        data = "C"
                       }
                       BluetoothSerial.write(data)
                         .then((res) => {
                           console.log(res);
                           console.log(data);
+                          console.log("val",btn[0])
                           console.log('Successfuly wrote to device')
                           this.setState({ connected: true })
-                            const reference = database().ref('/Rooms');
-                          reference.update({
-                              toggled:val,
-                              connected:this.state.connected
-                          })
-                          // reference.on('value',snapshot=>{
-                          //   console.log('user data',snapshot.val());
-                          // })
+              
                         })
                         .catch((err) => console.log(err.message))
 

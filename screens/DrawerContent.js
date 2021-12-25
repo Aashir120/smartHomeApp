@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
     useTheme,
@@ -15,6 +15,7 @@ import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer';
+import database from '@react-native-firebase/database';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -23,9 +24,21 @@ import{ AuthContext } from '../components/AuthProvider';
 export function DrawerContent(props) {
 
     const paperTheme = useTheme();
+    const [todos,setTodos] = useState(null);
 
     const { logout, toggleTheme } = React.useContext(AuthContext);
-
+    
+    function componentDidMount(){    
+    database().ref('/Temperature').on('value', querySnapShot => {
+          let data = querySnapShot.val() ? querySnapShot.val() : {};
+          let todoItems = {...data};
+          setTodos(todoItems)
+        });
+    }
+    useEffect(()=>{
+        componentDidMount()
+        console.log(todos);
+    },[])
     return(
         <View style={{flex:1}}>
             <DrawerContentScrollView {...props}>
@@ -46,11 +59,15 @@ export function DrawerContent(props) {
 
                         <View style={styles.row}>
                             <View style={styles.section}>
-                                <Paragraph style={[styles.paragraph, styles.caption]}>24 °C</Paragraph>
+                                <Paragraph style={[styles.paragraph, styles.caption]}>
+                                {todos? todos.Temperature: "24*C"}
+                                </Paragraph>
                                 <Caption style={styles.caption}>TEMP</Caption>
                             </View>
                             <View style={styles.section}>
-                                <Paragraph style={[styles.paragraph, styles.caption]}>50%</Paragraph>
+                                <Paragraph style={[styles.paragraph, styles.caption]}>
+                                {todos? todos.Humidity: "24*C"}
+                                </Paragraph>
                                 <Caption style={styles.caption}>HUMIDITY</Caption>
                             </View>
                         </View>
